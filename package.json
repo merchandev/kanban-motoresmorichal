@@ -1,0 +1,4 @@
+{
+  "name": "tallerflow-mvp", "private": true, "version": "1.0.0", "description": "Sistema web autonomo para talleres automotrices",
+  "scripts": {"test": "node --test api/test/*.test.cjs", "check": "node --check api/src/index.cjs && node --check api/src/init.cjs"}
+}
