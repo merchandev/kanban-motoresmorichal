@@ -166,3 +166,26 @@ Archivos preparados para commit
 - `A` — `web/vite.config.js`
 
 <!-- staged:117fd0cbd7816f32c55545db3cea1dc3cde64455dd7bfdbc35b0b227e68439c0 -->
+
+## 2026-10-15 — Corregir importación automática desde el panel VPS
+
+- El panel seleccionó compose.yaml y falló porque el puerto 80 ya estaba ocupado.
+- compose.yaml ahora publica únicamente HTTP_PORT (18090 por defecto), con base y API privadas, límites de recursos y descubrimiento Traefik desactivado. Se conservan las claves de volúmenes y el nombre predeterminado local; el panel mantiene su nombre de proyecto existente.
+- HTTP usa COOKIE_SECURE=false por defecto y DEMO_PASSWORD deja de ser obligatorio sin demo. No se modifica la interfaz ni se cambian contraseñas existentes.
+- La prueba VPS verifica ahora el archivo predeterminado usado por el panel; CI también ejecuta el perfil compose.vps.yaml explícito.
+- Se documenta el reintento conservando proyecto, credenciales y volúmenes. El puerto remoto y el reintento aún requieren comprobación en el servidor.
+- Validación local: npm run check y git diff --check aprobados; ambos perfiles arrancaron con tres servicios saludables, login HTTP, registro público y aislamiento correctos. La configuración de .env.example publica solo 18090/TCP.
+
+### Registro automático — 2026-10-15 11:56:03 (America/Caracas)
+
+Archivos preparados para commit
+
+- `M` — `.env.example`
+- `M` — `.github/workflows/ci.yml`
+- `M` — `AGENTS.md`
+- `M` — `README.md`
+- `M` — `compose.yaml`
+- `M` — `docs/DESPLIEGUE_IP_PUERTO.md`
+- `M` — `scripts/test-vps.cjs`
+
+<!-- staged:b08346d353aa54bf3d4815e4882beea358f8465d22bde8c962b9a76ecd8f1c5d -->

@@ -2,10 +2,17 @@
 // Ensayo local del perfil VPS, con proyecto nuevo, puerto efímero en loopback y sin datos demo.
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict'),{spawnSync}=require('node:child_process');
 const id=`tallerflow-vps-qa-${Date.now()}`,root=path.resolve(__dirname,'..'),envFile=path.join(os.tmpdir(),id+'.env'),password='QA_vps_only_2026';
-const base=['compose','--env-file',envFile,'-f','compose.vps.yaml','-p',id];let created=false;
+const composeFile=process.argv[2]||'compose.yaml';
+assert.ok(['compose.yaml','compose.vps.yaml'].includes(composeFile));
+const base=['compose','--env-file',envFile,'-f',composeFile,'-p',id];let created=false;
 function docker(args,capture=false){const r=spawnSync('docker',args,{cwd:root,encoding:capture?'utf8':undefined,stdio:capture?'pipe':'inherit',maxBuffer:16*1024*1024});if(r.error)throw r.error;if(r.status!==0)throw Error('Docker: '+args.slice(0,4).join(' ')+' '+String(r.stderr||''));return capture?r.stdout.trim():r;}
 async function main(){fs.writeFileSync(envFile,`COMPOSE_PROJECT_NAME=${id}\nHTTP_PORT=0\nBIND_IP=127.0.0.1\nPOSTGRES_PASSWORD=${password}\nADMIN_EMAIL=admin@tallerflow.local\nADMIN_PASSWORD=${password}\nSEED_DEMO=false\nCOOKIE_SECURE=false\n`,{mode:0o600});
- try{docker([...base,'config','--quiet']);created=true;docker([...base,'up','-d','--build','--wait','--wait-timeout','120']);
+ try{docker([...base,'config','--quiet']);
+  const defaults=JSON.parse(docker([...base,'config','--format','json'],true));
+  assert.equal(defaults.services.web.environment.SITE_ADDRESS,':80');
+  assert.equal(defaults.services.web.ports.length,1);
+  assert.equal(defaults.services.web.ports[0].target,80);
+  created=true;docker([...base,'up','-d','--build','--wait','--wait-timeout','120']);
   const ids=docker([...base,'ps','-q'],true).split(/\r?\n/);assert.equal(ids.length,3);
   const containers=JSON.parse(docker(['inspect',...ids],true));
   for(const c of containers){assert.equal(c.Config.Labels['com.docker.compose.project'],id);assert.equal(c.Config.Labels['traefik.enable'],'false');assert.ok(c.HostConfig.Memory>0);assert.ok(c.HostConfig.NanoCpus>0);

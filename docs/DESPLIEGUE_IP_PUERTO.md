@@ -5,12 +5,34 @@
 Servidor previsto: `72.61.77.167`. Puerto candidato: `18090/TCP`.
 El puerto no está confirmado libre: las capturas mostraban 3000, 8088, 18025, 25 y 587,
 pero no constituyen el inventario completo del servidor. El acceso SSH no ha podido
-autenticarse; no se ha desplegado esta versión ni se han tocado proyectos vecinos.
+autenticarse desde este entorno. El usuario reportó un despliegue parcial desde el panel:
+base y API saludables, web bloqueada por el puerto 80. La corrección remota aún no se
+ha ejecutado desde este entorno; no se han tocado proyectos vecinos.
 
-Usar **solo** `compose.vps.yaml`. No combinarlo con `compose.yaml`: este último es
-el perfil local y publica 80/443. El archivo VPS publica únicamente el puerto
-elegido hacia el 80 del contenedor web. API 3001 y PostgreSQL 5432 quedan sin publicar.
+Para scripts SSH usar `compose.vps.yaml`; al importar Git desde el panel,
+`compose.yaml` también publica únicamente HTTP_PORT (18090 por defecto).
+No combinar ambos archivos. API 3001 y PostgreSQL 5432 quedan sin publicar.
 Los tres servicios llevan `traefik.enable=false`, sin modificar los Traefik existentes.
+
+## Reintentar desde el panel tras el conflicto del puerto 80
+
+El registro del 15/10 muestra que el panel clona el repositorio y elige automáticamente
+`compose.yaml`. El fallo ocurrió al publicar el puerto 80; la base y la API ya estaban
+saludables. La configuración predeterminada corregida publica solo 18090/TCP.
+
+1. Comprobar que el puerto 18090 esté libre con las consultas siguientes.
+2. Actualizar/reimplementar el proyecto existente `kanban-motoresmorichal` desde
+   `main`, conservando exactamente su nombre y los valores de POSTGRES_PASSWORD,
+   ADMIN_EMAIL y ADMIN_PASSWORD usados en el primer intento. No crear otro proyecto.
+3. Configurar `HTTP_PORT=18090`, `COOKIE_SECURE=false` y `SEED_DEMO=false`.
+   No se necesita DEMO_PASSWORD si no se generan datos demo. No borrar volúmenes.
+4. Confirmar tres servicios saludables y abrir `http://IP_DEL_VPS:18090`.
+   Si el puerto está ocupado, elegir otro libre mediante HTTP_PORT; no detener al ocupante.
+
+Mantener la contraseña PostgreSQL original: editar la variable no cambia la contraseña
+de una base ya inicializada. El despliegue anterior pudo crear usuarios/datos según
+sus variables; SEED_DEMO=false evita nuevas semillas, pero no elimina registros previos.
+No se ha ejecutado este reintento remoto desde el entorno local.
 
 ## 1. Comprobar el servidor antes de instalar
 

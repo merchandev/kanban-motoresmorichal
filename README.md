@@ -11,8 +11,8 @@ Para los **comandos SSH completos y en orden**, consulta [`docs/DESPLIEGUE_VPS.m
 ## Despliegue de esta versión
 
 Para el VPS compartido con otros proyectos, seguir **[Despliegue aislado por IP y puerto](docs/DESPLIEGUE_IP_PUERTO.md)**.
-Usar exclusivamente `compose.vps.yaml` y `.env.vps`: puerto candidato **18090/TCP**, red y volúmenes propios, sin ocupar 80/443 ni conectar con los proxies existentes.
-Las instrucciones históricas de dominio que siguen usan `compose.yaml`; no aplicarlas al VPS compartido sin adaptar el perfil.
+El panel que importa Git usa `compose.yaml`: ahora publica únicamente **18090/TCP** (configurable con `HTTP_PORT`), con red y volúmenes propios. Para scripts SSH se mantiene `compose.vps.yaml` con `.env.vps`. No combinar los dos archivos.
+Las instrucciones históricas de dominio que siguen requieren adaptar expresamente los puertos para HTTPS; la configuración predeterminada sirve HTTP por IP.
 
 - [Comparación con el repositorio remoto y validación](docs/COMPARACION_LOCAL_REPO.md).
 - [Historial funcional y automático de cambios](historial.md).
@@ -31,7 +31,9 @@ Las instrucciones históricas de dominio que siguen usan `compose.yaml`; no apli
 - Puertos 22/TCP (idealmente solo desde tu IP), 80/TCP, 443/TCP y 443/UDP. **No** abrir 5432 ni 3001 públicamente.
 - Docker Engine y Docker Compose Plugin instalados desde repositorios oficiales de Docker.
 
-## 2. Despliegue con dominio HTTPS (recomendado)
+## 2. Referencia histórica: despliegue con dominio HTTPS
+
+**Este procedimiento requiere adaptar el perfil para HTTPS.** El compose actual escucha HTTP en 18090 y no publica 443. Para el panel compartido seguir la guía por IP indicada arriba.
 
 ```bash
 # En el VPS, tras instalar Docker y Compose:
@@ -61,7 +63,7 @@ Entra a `https://taller.tudominio.com`, correo `admin@tallerflow.local` y contra
 docker compose up -d --build
 ```
 
-Accede a `http://IP_DEL_VPS`. El script configura `COOKIE_SECURE=false` para HTTP: **no ingreses datos reales ni contraseñas sensibles** en este modo. Para pasar a dominio/HTTPS edita `.env` (`SITE_ADDRESS=taller.tudominio.com`, `COOKIE_SECURE=true`) y reinicia: `docker compose up -d`. Caddy emitirá el certificado si el DNS y firewall lo permiten.
+Accede a `http://IP_DEL_VPS:18090`. El script configura `COOKIE_SECURE=false` para HTTP: **no ingreses datos reales ni contraseñas sensibles** en este modo. Para pasar a dominio/HTTPS edita `.env` (`SITE_ADDRESS=taller.tudominio.com`, `COOKIE_SECURE=true`) y reinicia: `docker compose up -d`. Caddy emitirá el certificado si el DNS y firewall lo permiten.
 
 ## 4. Usuarios demo
 
