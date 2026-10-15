@@ -171,3 +171,7 @@ tallerflow-mvp/
 - Sin WebSockets, envío de notificaciones o firma digital legal. La entrega guarda nombre y evento, **no firma biométrica**.
 - El módulo de usuarios no incluye recuperación automática por correo. Admin puede crear cuentas; restablecer contraseñas debe implementarse antes de operación real.
 - La suite aislada cubre flujos HTTP/PostgreSQL y casos de concurrencia; no sustituye una prueba de carga ni la validación en el VPS. Ver `docs/QA.md` y la comparación de esta versión.
+
+## Seguimiento del vehículo para el cliente
+
+En **Clientes** o **Vehículos**, usar **QR cliente** para abrir, compartir, descargar o imprimir el mismo enlace de seguimiento del propietario. Si tiene varios vehículos, el cliente puede seleccionarlos. La vista pública muestra estación y estado sin iniciar sesión y se actualiza cada 30 segundos. [Uso y alcance](docs/SEGUIMIENTO_CLIENTE.md).

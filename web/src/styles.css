@@ -544,7 +544,11 @@ td strong{display:block;font-weight:550;color:var(--text)}
   .detail-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
   .stepper li:not(.current){font-size:0}
   .toast{left:16px;right:16px;bottom:16px}
+  .section-head{flex-wrap:wrap}
 }
+/* iOS amplía la página al enfocar un campo con letra menor de 16 px y la deja ampliada (la app no recarga al entrar):
+   en pantallas táctiles los campos usan 16 px. */
+@media (max-width:760px),(pointer:coarse){.field input,.field select,.field textarea,.searchbox input,.task-row select,.hist-select{font-size:16px}}
 @media print{
   .sidebar,.topbar,.scrim,.detail-tabs,.detail-actions,.page-head,.content,.site-footer,.btn,.modal-backdrop{display:none!important}
   .main-layout{height:auto;overflow:visible;margin:0;border:0;box-shadow:none}
@@ -711,6 +715,25 @@ td strong{display:block;font-weight:550;color:var(--text)}
 .qr-poster li b{flex:none;width:9mm;height:9mm;display:grid;place-items:center;border-radius:50%;background:#eb0a1e;color:#fff}
 .qr-poster-url{font-family:var(--mono);font-size:11pt;color:#555}
 @media print{body.print-poster>*:not(.qr-poster){display:none!important}body.print-poster .qr-poster{display:flex}}
+.tracking-page{min-height:100vh;background:var(--bg,#f7f7f7)}
+.tracking-brand{background:#0d0d0d;padding:20px;text-align:center}
+.tracking-brand img{width:260px;max-width:75%;height:auto}
+.tracking-content{max-width:1100px;margin:0 auto;padding:24px 16px}
+.tracking-content>.field{max-width:420px;margin-bottom:20px}
+.tracking-summary{padding:20px;margin-bottom:20px}
+.tracking-summary .section-head{padding:0 0 16px;gap:12px;flex-wrap:wrap}
+.tracking-summary h2{margin-top:8px}
+.tracking-link{margin:16px 0}
+.tracking-guide{margin-top:18px;line-height:1.6}
+.tracking-guide summary{cursor:pointer;font-weight:600}
+.tracking-guide section{margin-top:16px}
+.tracking-guide ol{padding-left:22px}
+.tracking-guide li{margin-bottom:8px}
+.qr-poster.tracking-print{min-height:0;padding:0;display:none}
+.tracking-print>img{width:100%;max-width:190mm;max-height:270mm;object-fit:contain}
+@media print{body.print-poster .tracking-print{display:flex;align-items:center;justify-content:center}}
+.tracking-qr>.qr-svg{display:block;margin:20px auto;max-width:100%;height:auto}
+@media(max-width:560px){.tracking-content{padding:20px 12px}.tracking-summary{padding:14px}.tracking-content .page-head{gap:14px;flex-wrap:wrap}}
 /* Autorregistro (segunda revisión): fotos en proceso, autorización, dirección del QR, bandeja paginada y comparación de identidad */
 .reg-help{margin:-4px 0 12px;font-size:13px;line-height:1.45;color:var(--text-3)}
 .reg-photo-wait{position:absolute;inset:0;display:grid;place-items:center;background:rgba(255,255,255,.72)}

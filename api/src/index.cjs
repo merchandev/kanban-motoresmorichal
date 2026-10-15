@@ -79,6 +79,7 @@ app.post('/api/public/registrations',regBurst,regHourly,uploadGate,receivePhotos
    if(!r.rows[0])throw new RepeatedSubmission();return r.rows[0].code}));
   res.status(201).json({code})}
  catch(err){if(err instanceof RepeatedSubmission){const code=await previous();if(code)return res.json({code,repeated:true})}throw err}}));
+require('./tracking.cjs').publicTracking(app,{q,wrap,fail});
 app.use('/api',wrap(async(req,res,next)=>{
  const token=req.cookies?.tf_session;if(!token||token.length>200)fail('Inicia sesión',401);
  const result=await q(`SELECT u.id,u.name,u.email,u.role,u.active,s.id AS session_id FROM sessions s JOIN users u ON u.id=s.user_id
@@ -87,6 +88,7 @@ app.use('/api',wrap(async(req,res,next)=>{
  req.user=result.rows[0];next();
 }));
 const permit=p=>(req,res,next)=>allowed(req.user.role,p)?next():res.status(403).json({error:'Tu rol no tiene permiso para esta acción'});
+require('./tracking.cjs').internalTracking(app,{q,tx,wrap,fail,permit,checkUuid});
 const orderSql=`SELECT o.*,c.name AS client_name,c.phone AS client_phone,v.plate,v.brand,v.model,v.year,v.vin,
  u.name AS technician_name,v.photo_id AS vehicle_photo_id,v.plate_photo_id AS vehicle_plate_photo_id FROM orders o JOIN clients c ON c.id=o.client_id JOIN vehicles v ON v.id=o.vehicle_id
  LEFT JOIN users u ON u.id=o.assigned_to`;

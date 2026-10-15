@@ -189,3 +189,42 @@ Archivos preparados para commit
 - `M` — `scripts/test-vps.cjs`
 
 <!-- staged:b08346d353aa54bf3d4815e4882beea358f8465d22bde8c962b9a76ecd8f1c5d -->
+
+## 2026-10-15 — QR compartido para seguimiento del cliente
+
+- Se añade un QR estable por cliente, accesible desde Clientes y desde cada uno de sus Vehículos. Un cliente con varios vehículos consulta todos los suyos y puede elegir uno. El mismo enlace funciona en visitas posteriores.
+- Nueva vista pública /seguimiento con el mapa existente en modo consulta, estación y estado actual, entrega/anulación, actualización cada 30 segundos, errores y última consulta visible. No requiere cuenta interna.
+- El enlace usa 256 bits aleatorios en el fragmento de la URL y viaja en una cabecera; no se acepta la placa como autorización ni se muestra información de otros clientes. Solo se publican identificación básica del vehículo y estado de su última orden, priorizando una abierta.
+- Crear o renovar el QR requiere permiso people. La renovación invalida el enlace anterior y se registra en auditoría sin guardar el secreto en el evento. Clientes/vehículos en Borradores no se exponen. Respuestas sin caché y consultas limitadas.
+- Se permite abrir, descargar e imprimir el QR. Se reutiliza la dirección pública central de Registro QR, con aviso si se intenta compartir localhost. Se conserva la interfaz existente fuera de estas acciones y la nueva página pública.
+- Migración aditiva client_tracking, sin cambios de contraseñas ni eliminación de registros. La restauración también comprueba esta tabla.
+- Validación: sintaxis CJS y build Docker del frontend aprobados; 20/20 pruebas completas con PostgreSQL/Sharp, incluida nueva integración de seguimiento; restauración verificada de 16 tablas y 9 archivos por SHA-256. Comprobación visual y CI se registran al completarse.
+- No se ha desplegado esta función en el VPS desde este entorno.
+
+## 2026-10-15 — Descargas del QR en PNG y PDF con guía para el cliente
+
+- Se conservan los ajustes de responsive del usuario: cabeceras flexibles y campos táctiles de 16 px para evitar el zoom de iOS.
+- Se termina el seguimiento público del cliente y sus vehículos, sin inicio de sesión y solo de consulta.
+- Botones Descargar PNG y Descargar PDF, con logo Toyota Motores Morichal, QR, instrucciones, beneficios y condiciones de uso; la impresión reutiliza el mismo diseño. El texto también se consulta en la vista pública.
+- Generación dentro del navegador, sin nuevas dependencias ni servicios de terceros. PNG de 2480x3508; PDF A4 de una página con imagen de alta resolución y enlace clicable sobre el QR. El PDF no tiene texto seleccionable.
+- Validación real: descargas desde los botones en el navegador, PDF abierto con parser estricto y renderizado para inspección visual, ambos QR decodificados y comparados con el enlace esperado. Sin cortes ni superposiciones en el documento. Build del frontend y sintaxis aprobados.
+- Producción: la IP indicada primero (72.61.77.167) corresponde a srv1190391 y no contiene el proyecto. El usuario aclaró que producción es 72.62.86.94; ese servidor responde pero rechazó la contraseña facilitada. No se realizaron cambios remotos. El despliegue queda pendiente de autenticar en el servidor correcto.
+
+### Registro automático — 2026-10-15 12:52:46 (America/Caracas)
+
+Archivos preparados para commit
+
+- `M` — `README.md`
+- `M` — `api/src/index.cjs`
+- `M` — `api/src/schema.sql`
+- `A` — `api/src/tracking.cjs`
+- `A` — `api/test/tracking.test.cjs`
+- `A` — `docs/SEGUIMIENTO_CLIENTE.md`
+- `M` — `scripts/test-flow.cjs`
+- `M` — `web/src/App.jsx`
+- `A` — `web/src/Seguimiento.jsx`
+- `M` — `web/src/main.jsx`
+- `M` — `web/src/styles.css`
+- `A` — `web/src/tracking-export.js`
+
+<!-- staged:198208df94de89909bb5608c44528f3c99d71b9e631dedd6a0dc7914c2a7ba03 -->

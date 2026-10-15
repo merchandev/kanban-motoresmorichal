@@ -11,6 +11,13 @@ CREATE TABLE IF NOT EXISTS vehicles (id uuid PRIMARY KEY, client_id uuid NOT NUL
  vin text NOT NULL DEFAULT '', brand text NOT NULL, model text NOT NULL, year int, mileage int NOT NULL DEFAULT 0,
  warranty_until date, next_service_km int, created_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS idx_vehicles_client ON vehicles(client_id);
+-- Un enlace compartido por cliente y sus vehículos; no concede acceso al panel.
+CREATE TABLE IF NOT EXISTS client_tracking (
+ client_id uuid PRIMARY KEY REFERENCES clients(id) ON DELETE CASCADE,
+ token text NOT NULL UNIQUE,
+ created_at timestamptz NOT NULL DEFAULT now(),
+ updated_at timestamptz NOT NULL DEFAULT now()
+);
 CREATE TABLE IF NOT EXISTS appointments (id uuid PRIMARY KEY, client_id uuid NOT NULL REFERENCES clients(id), vehicle_id uuid NOT NULL REFERENCES vehicles(id),
  scheduled_at timestamptz NOT NULL, reason text NOT NULL, status text NOT NULL DEFAULT 'scheduled' CHECK (status IN ('scheduled','confirmed','arrived','cancelled')),
  notes text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now());

@@ -31,7 +31,7 @@ async function main(){try{
  const archive=docker(['exec',id+'-api','tar','-czf','-','-C','/tmp/qa-uploads','.'],{input:Buffer.alloc(0)}).stdout;
  docker(['exec','-i',id+'-api','sh','-ec','cat > /tmp/uploads-qa.tgz; mkdir /tmp/uploads-restored; tar -xzf /tmp/uploads-qa.tgz -C /tmp/uploads-restored'],{input:archive});
  docker(['exec',id+'-db','sh','-ec','pg_dump -U tallerflow -d tallerflow -Fc > /tmp/qa.dump; createdb -U tallerflow qa_restored; pg_restore --exit-on-error -U tallerflow -d qa_restored /tmp/qa.dump']);
- const tables=['users','clients','vehicles','orders','tasks','inventory','inventory_movements','parts_requests','part_orders','media','client_registrations','audit_events','order_operations','attachments','app_settings'];
+ const tables=['users','clients','vehicles','orders','tasks','inventory','inventory_movements','parts_requests','part_orders','media','client_registrations','audit_events','order_operations','attachments','app_settings','client_tracking'];
  const sql="SELECT json_build_object("+tables.map(t=>`'${t}',(SELECT count(*) FROM ${t})`).join(',')+')::text';
  const count=db=>docker(['exec',id+'-db','psql','-U','tallerflow','-d',db,'-Atc',sql],{capture:true});
  if(count('tallerflow')!==count('qa_restored'))throw Error('La restauración no coincide con las tablas originales');
