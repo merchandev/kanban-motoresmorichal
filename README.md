@@ -4,9 +4,24 @@
 
 Sistema web independiente. **No se integra ni depende de Infoauto u otro sistema.** Incluye inicio de sesión seguro por cookie HttpOnly y roles, clientes, vehículos, citas, órdenes, 6 estaciones Kanban, tareas, permisos, diagnóstico, presupuestos internos, inventario, solicitudes y despachos, garantías, calidad, retrabajos, lavado, entrega, archivos privados, bitácora y reportes CSV. Se incluyen datos **claramente ficticios** opcionales para una demostración.
 
-> **Estado de validación:** sintaxis de servidor y pruebas unitarias locales verificadas. En el entorno donde se generó el proyecto no hubo acceso al registro npm ni Docker; por eso **no se han ejecutado el build React, el arranque Docker ni las pruebas e2e en un servidor real**. Es un MVP implementado y empaquetado para desplegar, pero debe validarse en VPS antes de utilizarlo con datos de clientes reales.
+> **Estado de validación:** consultar la evidencia de esta versión en `docs/COMPARACION_LOCAL_REPO.md`. Las comprobaciones locales se distinguen del despliegue real en VPS, pendiente de acceso SSH y verificación de puertos/recursos.
 
 Para los **comandos SSH completos y en orden**, consulta [`docs/DESPLIEGUE_VPS.md`](docs/DESPLIEGUE_VPS.md).
+
+## Despliegue de esta versión
+
+Para el VPS compartido con otros proyectos, seguir **[Despliegue aislado por IP y puerto](docs/DESPLIEGUE_IP_PUERTO.md)**.
+Usar exclusivamente `compose.vps.yaml` y `.env.vps`: puerto candidato **18090/TCP**, red y volúmenes propios, sin ocupar 80/443 ni conectar con los proxies existentes.
+Las instrucciones históricas de dominio que siguen usan `compose.yaml`; no aplicarlas al VPS compartido sin adaptar el perfil.
+
+- [Comparación con el repositorio remoto y validación](docs/COMPARACION_LOCAL_REPO.md).
+- [Historial funcional y automático de cambios](historial.md).
+- `npm run hooks:install`: instalar el historial automático de archivos por commit en cada clon.
+- `npm run check`: sintaxis de todos los CJS de API, pruebas y scripts.
+- `npm test`: pruebas unitarias; las que necesitan Sharp o PostgreSQL pueden omitirse fuera de Docker.
+- `npm run test:flow`: suite completa con Sharp y PostgreSQL aislado; también verifica restauración.
+
+`.env` no se distribuye. El commit remoto inicial lo incluía: retirar el archivo del árbol actual no lo borra de la historia. Generar claves nuevas y rotar cualquier clave histórica real usada en sistemas activos.
 
 ## 1. VPS recomendado
 
@@ -153,4 +168,4 @@ tallerflow-mvp/
 - Adjuntos privados sin antivirus integrado; implantar análisis antimalware y políticas de retención antes de usar documentos de clientes reales.
 - Sin WebSockets, envío de notificaciones o firma digital legal. La entrega guarda nombre y evento, **no firma biométrica**.
 - El módulo de usuarios no incluye recuperación automática por correo. Admin puede crear cuentas; restablecer contraseñas debe implementarse antes de operación real.
-- No hay pruebas e2e ejecutadas ni validación de carga/concurrencia real en PostgreSQL en este entorno. Ver `docs/QA.md` para pruebas manuales requeridas.
+- La suite aislada cubre flujos HTTP/PostgreSQL y casos de concurrencia; no sustituye una prueba de carga ni la validación en el VPS. Ver `docs/QA.md` y la comparación de esta versión.

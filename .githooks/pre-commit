@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+node scripts/check-staged.cjs
+node scripts/update-history.cjs

@@ -1,4 +1,14 @@
 {
-  "name": "tallerflow-mvp", "private": true, "version": "1.0.0", "description": "Sistema web autonomo para talleres automotrices",
-  "scripts": {"test": "node --test api/test/*.test.cjs", "check": "node --check api/src/index.cjs && node --check api/src/init.cjs"}
+  "name": "tallerflow-mvp",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sistema web autonomo para talleres automotrices",
+  "scripts": {
+    "test": "node --test api/test/*.test.cjs",
+    "test:flow": "node scripts/test-flow.cjs",
+    "test:vps": "node scripts/test-vps.cjs",
+    "check": "node scripts/check-syntax.cjs",
+    "hooks:install": "node scripts/install-hooks.cjs",
+    "history:update": "node scripts/update-history.cjs"
+  }
 }

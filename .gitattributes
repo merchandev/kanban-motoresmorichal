@@ -1,0 +1,16 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.cjs text eol=lf
+*.jsx text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+.githooks/* text eol=lf
+*.webp binary
+
+.gitignore text eol=lf
+.env.example text eol=lf
+.env.vps.example text eol=lf
+*.md whitespace=-blank-at-eol

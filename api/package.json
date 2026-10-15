@@ -1,0 +1,24 @@
+{
+  "name": "tallerflow-api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.cjs",
+    "init": "node src/init.cjs",
+    "test": "node --test test/*.test.cjs"
+  },
+  "dependencies": {
+    "bcryptjs": "3.0.3",
+    "cookie-parser": "1.4.7",
+    "express": "4.22.3",
+    "express-rate-limit": "7.5.0",
+    "helmet": "8.3.0",
+    "multer": "2.4.0",
+    "pg": "8.23.1",
+    "sharp": "0.35.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
