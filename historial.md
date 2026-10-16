@@ -286,3 +286,19 @@ Archivos preparados para commit
 - `M` — `scripts/test-flow.cjs`
 
 <!-- staged:a8d52723eb28836fc400c7da552e5501d7c92824fad1b950ca4e0972ae8fc4ec -->
+
+### Resultado verificado de CI — 2026-10-15
+- Ejecución 38828941520 aprobada: sintaxis JS/Python, ambas imágenes Docker, 20/20 pruebas de integración, restauración de 16 tablas y 9 archivos por SHA-256, ambos perfiles Compose y prueba real del actualizador.
+- El actualizador descargó y ejecutó 6d6bbfefcbbe9b72d9b29dd645fbc33bb444d047 en un proyecto QA aislado. Se comprobaron filas idénticas antes/después, archivos, contraseña, puerto, volúmenes y el mismo contenedor PostgreSQL; respaldos legibles y rutas HTTP correctas. Recursos QA eliminados al finalizar.
+- La recuperación automática de imágenes está implementada, pero este ensayo comprueba el camino exitoso; no se simula un fallo de arranque. No se afirma despliegue real en el VPS.
+- Evidencia: https://github.com/merchandev/kanban-motoresmorichal/actions/runs/38828941520
+- Se corrigen los enlaces restantes al servidor anterior en la guía de despliegue.
+
+
+### Registro automático — 2026-10-15 20:23:37 (America/Caracas)
+
+Archivos preparados para commit
+
+- `M` — `docs/DESPLIEGUE_IP_PUERTO.md`
+
+<!-- staged:6a16aba60e2bb9aa83e1cdd155432e534fd23a9778fddbabb1ced642f1ac5ece -->

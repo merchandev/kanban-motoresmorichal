@@ -98,7 +98,7 @@ en el firewall del VPS y en el panel del proveedor. No sustituir ni reiniciar la
 reglas existentes. Este paso modifica el servidor y requiere haber completado
 las comprobaciones anteriores.
 
-Acceso previsto: `http://72.61.77.167:18090`.
+Acceso previsto: `http://72.62.86.94:18090`.
 
 ```bash
 curl --fail http://127.0.0.1:18090/api/health
@@ -107,7 +107,7 @@ curl --fail -I http://127.0.0.1:18090/registro
 
 Comprobar también acceso desde fuera del servidor y desde un teléfono antes de
 imprimir el QR. Entrar como administrador y configurar la dirección pública
-`http://72.61.77.167:18090` en Registro de clientes: se guarda centralmente y la
+`http://72.62.86.94:18090` en Registro de clientes: se guarda centralmente y la
 ruta `/registro` se normaliza automáticamente.
 
 El perfil por IP es HTTP y usa `COOKIE_SECURE=false`: no cifra los datos ni las
