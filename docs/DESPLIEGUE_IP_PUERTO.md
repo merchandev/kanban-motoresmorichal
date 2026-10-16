@@ -2,7 +2,10 @@
 
 ## Alcance y estado
 
-Servidor previsto: `72.61.77.167`. Puerto candidato: `18090/TCP`.
+Servidor corregido por el propietario: `72.62.86.94` (srv1212736).
+El servidor `72.61.77.167` contiene otros proyectos y no debe actualizarse.
+Para una instalación existente, seguir [la actualización desde consola](ACTUALIZAR_PRODUCCION.md).
+Puerto candidato para instalaciones nuevas: `18090/TCP`.
 El puerto no está confirmado libre: las capturas mostraban 3000, 8088, 18025, 25 y 587,
 pero no constituyen el inventario completo del servidor. El acceso SSH no ha podido
 autenticarse desde este entorno. El usuario reportó un despliegue parcial desde el panel:

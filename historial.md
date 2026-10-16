@@ -1,5 +1,24 @@
 # Historial del proyecto
 
+## 2026-10-15 — Actualizador de producción y comprobación reproducible
+
+- Motivo: actualizar la instalación existente desde la consola del VPS correcto
+  (72.62.86.94), conservando configuración y datos incluso si el panel no deja un clon Git.
+- Nuevo `scripts/update-production.py`: valida proyecto/red/volúmenes, mantiene el
+  puerto HTTP activo y credenciales, compila antes del cambio, respalda PostgreSQL
+  y uploads con comprobación de lectura, sustituye solo API/web y comprueba HTTP.
+  Ante fallo intenta recuperar las imágenes anteriores. Bloquea actualizaciones
+  simultáneas y conserva literalmente los dólares en configuración Compose.
+- Nueva guía de consola, exclusión de archivos privados de actualización y prueba
+  Docker automatizada: comprueba registros, archivos, contraseña, puerto, volúmenes,
+  permanencia del contenedor PostgreSQL y lectura de los respaldos. Se añade a CI.
+- Validación local: `npm run hooks:install`, `npm run check` y `npm test` correctos
+  (12 pruebas aprobadas, 8 requieren dependencias o integración Docker).
+  Docker Desktop no pudo iniciar en este equipo: la validación completa se delega
+  al flujo CI del commit y su resultado debe consultarse antes de desplegar.
+- Producción no actualizada desde este entorno: autenticación SSH rechazada en el
+  VPS correcto. No se cambiaron datos ni servicios de servidores vecinos.
+
 Las entradas describen cambios conocidos y sus verificaciones. No se atribuyen
 pruebas ni despliegues que no se hayan ejecutado. Fechas en America/Caracas.
 
@@ -228,3 +247,17 @@ Archivos preparados para commit
 - `A` — `web/src/tracking-export.js`
 
 <!-- staged:198208df94de89909bb5608c44528f3c99d71b9e631dedd6a0dc7914c2a7ba03 -->
+
+### Registro automático — 2026-10-15 20:19:19 (America/Caracas)
+
+Archivos preparados para commit
+
+- `M` — `.github/workflows/ci.yml`
+- `M` — `.gitignore`
+- `M` — `README.md`
+- `A` — `docs/ACTUALIZAR_PRODUCCION.md`
+- `M` — `docs/DESPLIEGUE_IP_PUERTO.md`
+- `A` — `scripts/test-updater.cjs`
+- `A` — `scripts/update-production.py`
+
+<!-- staged:232c1b9c5dcc1d24634308c85658b4cbba7db312eccf9c37b35025f8df88772a -->

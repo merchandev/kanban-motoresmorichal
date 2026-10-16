@@ -17,11 +17,13 @@ jobs:
         with:
           node-version: '22'
       - run: npm run check
+      - run: python3 -m py_compile scripts/update-production.py
       - run: npm test
       - run: docker build -t tallerflow-ci-web ./web
       - run: npm run test:flow
       - run: npm run test:vps
       - run: node scripts/test-vps.cjs compose.vps.yaml
+      - run: node scripts/test-updater.cjs
       - name: Rechazar secretos versionados
         run: |
           if git ls-files | grep -E '(^|/)\.env($|\.)' | grep -vE '^\.env(\.vps)?\.example$'; then

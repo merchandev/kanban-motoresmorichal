@@ -175,3 +175,7 @@ tallerflow-mvp/
 ## Seguimiento del vehículo para el cliente
 
 En **Clientes** o **Vehículos**, usar **QR cliente** para abrir, compartir, descargar o imprimir el mismo enlace de seguimiento del propietario. Si tiene varios vehículos, el cliente puede seleccionarlos. La vista pública muestra estación y estado sin iniciar sesión y se actualiza cada 30 segundos. [Uso y alcance](docs/SEGUIMIENTO_CLIENTE.md).
+# Actualizar una instalación existente
+
+Consulta [la guía de actualización desde consola](docs/ACTUALIZAR_PRODUCCION.md).
+
