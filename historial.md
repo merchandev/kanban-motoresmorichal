@@ -274,3 +274,15 @@ Archivos preparados para commit
 - `M` — `scripts/test-updater.cjs`
 
 <!-- staged:c0d1171553849e7683744c986410b2bb26d1a728d8f493b2e948f34b6fc91adf -->
+
+### Corrección de espera en la integración
+- CI detectó una carrera: pg_isready por socket aceptaba el servidor temporal de initdb antes de escuchar TCP. La prueba ahora espera TCP en 127.0.0.1 antes de iniciar la API. El primer ensayo CI falló por ECONNREFUSED; se repetirá con esta corrección.
+
+
+### Registro automático — 2026-10-15 20:21:27 (America/Caracas)
+
+Archivos preparados para commit
+
+- `M` — `scripts/test-flow.cjs`
+
+<!-- staged:a8d52723eb28836fc400c7da552e5501d7c92824fad1b950ca4e0972ae8fc4ec -->

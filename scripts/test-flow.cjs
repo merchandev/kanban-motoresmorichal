@@ -18,7 +18,8 @@ async function main(){try{
  docker(['build','-t',image,'./api']);
  docker(['network','create',id]);network=true;
  docker(['run','-d','--name',id+'-db','--network',id,'--tmpfs','/var/lib/postgresql/data','-e','POSTGRES_PASSWORD='+password,'-e','POSTGRES_DB=tallerflow','-e','POSTGRES_USER=tallerflow','postgres:16-alpine']);made.push(id+'-db');
- await ready(id+'-db',['pg_isready','-U','tallerflow','-d','tallerflow']);
+ // El servidor temporal de initdb solo acepta socket; esperar el TCP definitivo.
+ await ready(id+'-db',['pg_isready','-h','127.0.0.1','-U','tallerflow','-d','tallerflow']);
  docker(['run','-d','--name',id+'-api','--network',id,
   '-e',`DATABASE_URL=postgresql://tallerflow:${password}@${id}-db:5432/tallerflow`,
   '-e','ADMIN_EMAIL=admin@tallerflow.local','-e','ADMIN_PASSWORD='+password,'-e','DEMO_PASSWORD='+password,
