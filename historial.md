@@ -261,3 +261,16 @@ Archivos preparados para commit
 - `A` — `scripts/update-production.py`
 
 <!-- staged:232c1b9c5dcc1d24634308c85658b4cbba7db312eccf9c37b35025f8df88772a -->
+
+### Ajuste de la prueba de actualización
+- Se configura también DEMO_PASSWORD en el entorno QA para crear datos ficticios y comprobar su conservación; no se modifica la configuración de producción.
+
+
+### Registro automático — 2026-10-15 20:20:30 (America/Caracas)
+
+Archivos preparados para commit
+
+- `M` — `README.md`
+- `M` — `scripts/test-updater.cjs`
+
+<!-- staged:c0d1171553849e7683744c986410b2bb26d1a728d8f493b2e948f34b6fc91adf -->

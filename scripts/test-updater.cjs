@@ -8,7 +8,7 @@ function docker(args,capture=false){const r=spawnSync('docker',args,{encoding:'u
 const compose=['compose','--env-file',envFile,'-p',project,'-f',path.join(root,'compose.yaml')];
 function inspect(service){return JSON.parse(docker(['inspect',project+'-'+service+'-1'],true))[0];}
 async function main(){
- fs.writeFileSync(envFile,`HTTP_PORT=0\nBIND_IP=127.0.0.1\nPOSTGRES_PASSWORD=${password}\nADMIN_EMAIL=admin@tallerflow.local\nADMIN_PASSWORD=${password}\nSEED_DEMO=true\n`,{mode:0o600});
+ fs.writeFileSync(envFile,`HTTP_PORT=0\nBIND_IP=127.0.0.1\nPOSTGRES_PASSWORD=${password}\nADMIN_EMAIL=admin@tallerflow.local\nADMIN_PASSWORD=${password}\nDEMO_PASSWORD=${password}\nSEED_DEMO=true\n`,{mode:0o600});
  try{
   docker([...compose,'up','-d','--build','--wait','--wait-timeout','150']);
   const before={db:inspect('db'),api:inspect('api'),web:inspect('web')};
